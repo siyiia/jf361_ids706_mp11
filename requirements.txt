@@ -1,0 +1,10 @@
+pylint
+pytest
+black
+nbval
+pyspark
+pandas
+tabulate
+pandas
+databricks-sql-connector
+python-dotenv
