@@ -17,15 +17,17 @@ def generate_report(content, title, filename="./result_report.md", write_to_file
         file.write(f"{content}\n")
 
 
-def extract(spark, url='https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv'):
+def extract(spark, url='https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv?raw=true'):
     """Extract data from a URL and load it into a Spark DataFrame."""
     try:
         response = requests.get(url)
         if response.status_code == 200:
             local_file = "dbfs:/FileStore/mini_project11/jf361_iris.csv"
+            
+            print("extract")
             with open(local_file, "wb") as f:
                 f.write(response.content)
-
+            print("write file")
             df_spark = spark.read.csv(local_file, header=True, inferSchema=True)
 
             output = df_spark.limit(10).toPandas().to_markdown()
