@@ -22,7 +22,7 @@ def extract(spark, url='https://raw.githubusercontent.com/mwaskom/seaborn-data/m
     try:
         response = requests.get(url)
         if response.status_code == 200:
-            local_file = "/tmp/jf361_iris.csv"
+            local_file = "dbfs:/FileStore/mini_project11/jf361_iris.csv"
             with open(local_file, "wb") as f:
                 f.write(response.content)
 
