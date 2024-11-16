@@ -1,5 +1,19 @@
 from pyspark.sql.functions import col, when, round, avg
 from lib.extract import generate_report
+from pyspark.sql import SparkSession
+
+def start_spark(appName):
+    """Initialize and return a Spark session."""
+    return SparkSession.builder.appName(appName).getOrCreate()
+
+def extract_data(spark, file_path="dbfs:/FileStore/mini_project11/jf361_iris.csv"):
+    df_spark = spark.read.csv(file_path, header=True, inferSchema=True)
+
+    output = df_spark.limit(10).toPandas().to_markdown()
+    print("Data extracted successfully.")
+
+    generate_report(content=output, title="Iris Data Extracted", write_to_file=True, mode='w')
+    return df_spark
 
 def transform_data(df):
     """Apply transformations to the input Spark DataFrame."""
@@ -48,15 +62,8 @@ def load(df, table_name, mode="overwrite"):
         print(f"An error occurred while loading data into table {table_name}: {str(e)}")
 
 
-def query(spark, table_name, sql_query):
-    """Query a Databricks table and generate a markdown report."""
-    query_result = spark.sql(sql_query)
-
-    query_result_md = query_result.limit(10).toPandas().to_markdown()
-    generate_report(content=query_result_md,
-                    title=f"Query Result for Table: {table_name}",
-                    write_to_file=True,
-                    mode='a',
-                    query=sql_query)
-    print(f"Query executed and report generated")
-    return query_result
+if __name__ == "__main__":
+    process_spark = start_spark("Process Data")
+    process_df = extract_data(process_spark)
+    process_df = transform_data(process_df)
+    load(process_df, "jf361_iris_table")
