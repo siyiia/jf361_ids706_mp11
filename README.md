@@ -17,7 +17,7 @@ The markdown report can be found here [Result Report](./result_report.md).
 3. Under `Job Runs`, click `Create job` to create a pipeline for all jobs needed for this project.
 4. Then click `Run` to run the jobs.
 
-## Project Description
+## Code Description
 1. Extract data from a specified URL and save it as a `.csv` file in `Databricks File System (DBFS)`.
 2. Load the `.csv` file from DBFS into a Spark `DataFrame` for processing.
 3. Apply transformations and modifications to the `DataFrame` to prepare the data.
