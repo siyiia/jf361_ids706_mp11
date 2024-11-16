@@ -1,6 +1,19 @@
+# %python
+# %pip install tabulate
 from pyspark.sql.functions import col, when, round, avg
-from lib.extract import generate_report
 from pyspark.sql import SparkSession
+
+
+def generate_report(content, title, filename="./result_report.md", write_to_file=False, mode='a', query=None):
+    """Generate a markdown report."""
+    if not write_to_file:
+            return
+    with open(filename, mode, encoding="utf-8") as file:
+        file.write(f"\n## {title}\n")
+        if query:
+            file.write(f"### Query:\n```\n{query}\n```\n\n")
+        file.write(f"{content}\n")
+
 
 def start_spark(appName):
     """Initialize and return a Spark session."""

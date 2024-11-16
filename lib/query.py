@@ -1,5 +1,6 @@
-from lib.extract import generate_report
-from lib.process_data import start_spark
+%python
+%pip install tabulate
+from lib.process_data import start_spark, generate_report
 
 
 def query(spark, table_name, sql_query):
