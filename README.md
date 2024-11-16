@@ -1,48 +1,31 @@
 # jf361_ids706_mp11
-[![CICD](https://github.com/siyiia/jf361_ids706_mp10/actions/workflows/cicd.yml/badge.svg)](https://github.com/siyiia/jf361_ids706_mp10/actions/workflows/cicd.yml)
+[![CI](https://github.com/siyiia/jf361_ids706_mp11/actions/workflows/cicd.yml/badge.svg)](https://github.com/siyiia/jf361_ids706_mp11/actions/workflows/cicd.yml)
 
 ## Project Introduction
-This project is to use PySpark to process data.
+This project is to use Data Pipeline with Databricks.
 
 ## Project Requirments
-- Use PySpark to perform data processing on a large dataset
-- Include at least one Spark SQL query and one data transformation
+- Create a data pipeline using Databricks
+- Include at least one data source and one data sink
 
 ## Project Output
 The markdown report can be found here [Result Report](./result_report.md).
 
 ## Setup
-### Data Process
-Read data from `dataset.txt`, then drop rows with any nulls and cast type for specific columns
-```python
- df = spark.read.option("header", True).csv("dataset.txt")
- 
- df = df.dropna(how="any")
- df = df.withColumn("Altitude", col("Altitude").cast("float"))
- df = df.withColumn("Latitude", col("Latitude").cast("float"))
- df = df.withColumn("Longitude", col("Longitude").cast("float"))
+1. Create a Cluster in `Databricks`.
+2. Under personal workspace, import a GitHub repo
+3. Under `Job Runs`, click `Create job` to create a pipeline for all jobs needed for this project.
+4. Then click `Run` to run the jobs.
 
- summary_df = df.describe()
-```
+## Project Description
+1. Extract data from a specified URL and save it as a `.csv` file in `Databricks File System (DBFS)`.
+2. Load the `.csv` file from DBFS into a Spark `DataFrame` for processing.
+3. Apply transformations and modifications to the `DataFrame` to prepare the data.
+4. Save the transformed `DataFrame` back to `Databricks` as a managed table.
+5. Execute SQL queries on the table to analyze or retrieve specific data.
 
-###  Spark SQL Query
-Example query string is to find the maximum altitude for each person and then rank them from max to min.
-```python
-df.createOrReplaceTempView(table_name)
-result_df = spark.sql(query_str)
 
-example_query_str = f"""
-        SELECT UserID, MAX(Altitude) AS MaxAltitude
-        FROM {trajectory_table_name}
-        GROUP BY UserID
-        ORDER BY MaxAltitude DESC 
-        """
-```
-
-### Data Transformation
-This transformation adds a new column `Adjusted_Altitude` by increasing the `Altitude` by 100, and then filters the 
-DataFrame to keep only rows where `Adjusted_Altitude` is greater than the specified threshold.
-```python
-transformed_df = df.withColumn("Adjusted_Altitude", col("Altitude").cast("float") + 100.0)
-filter_df = transformed_df.filter(col("Adjusted_Altitude").cast("float") > threshold)
-```
+## Workflow
+<p>
+    <img src="screenshots/workflow.png" />
+</p>
