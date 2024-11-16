@@ -4,7 +4,7 @@ from pyspark import dbutils
 import os
 import json
 import base64
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 def start_spark(appName):
     """Initialize and return a Spark session."""
