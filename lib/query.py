@@ -1,5 +1,5 @@
-%python
-%pip install tabulate
+# %python
+# %pip install tabulate
 from lib.process_data import start_spark, generate_report
 
 
