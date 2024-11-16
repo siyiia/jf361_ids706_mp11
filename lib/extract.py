@@ -1,7 +1,4 @@
 import requests
-import os
-import json
-import base64
 
 def extract(url='https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv?raw=true'):
     """Extract data from a URL and load it into a Spark DataFrame."""
