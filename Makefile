@@ -3,6 +3,6 @@ install:
 lint:
 	pylint --disable=R,C --ignore-patterns=test_.*?py test_*.py *.py
 format:
-	black *.py
+	black *.py test_*.py
 test:
 	pytest --nbval test_*.py
