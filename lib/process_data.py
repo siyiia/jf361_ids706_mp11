@@ -19,16 +19,17 @@ def start_spark(appName):
     """Initialize and return a Spark session."""
     return SparkSession.builder.appName(appName).getOrCreate()
 
-def extract_data(spark, file_path="dbfs:/FileStore/mini_project11/jf361_iris.csv"):
+def extract_data(spark, file_path="dbfs:/FileStore/mini_project11/jf361_iris.csv", generate_flag=False):
     df_spark = spark.read.csv(file_path, header=True, inferSchema=True)
 
     output = df_spark.limit(10).toPandas().to_markdown()
     print("Data extracted successfully.")
-
-    generate_report(content=output, title="Iris Data Extracted", write_to_file=True, mode='w')
+    
+    if generate_flag:
+        generate_report(content=output, title="Iris Data Extracted", write_to_file=True, mode='w')
     return df_spark
 
-def transform_data(df):
+def transform_data(df, generate_flag=False):
     """Apply transformations to the input Spark DataFrame."""
     # Step 1: Rename columns for better readability
     df = df.withColumnRenamed("sepal_length", "SepalLength") \
@@ -62,7 +63,8 @@ def transform_data(df):
 
     print("Transformations applied successfully.")
     summary_markdown = summary_df.toPandas().to_markdown()
-    generate_report(summary_markdown, "Summary of Iris Data Transformations", write_to_file=True, mode='a')
+    if generate_flag:
+        generate_report(summary_markdown, "Summary of Iris Data Transformations", write_to_file=True, mode='a')
     return df
 
 
